@@ -9,7 +9,7 @@ draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, 1, 0, c_white, 1)
 if usingShader shader_reset()
 if !debug exit
 draw_point(x + 25 * sign(hsp), y)
-if showcol draw_sprite(mask_index,0,x,y)
+//if showcol draw_sprite(mask_index,0,x,y)
 if showdebug {
 	draw_set_font(fnt_textregular)
 	var _i = 1
