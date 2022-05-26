@@ -55,3 +55,4 @@ if debug {
 	showcol = true
 	showdebug = true
 }
+character = "L"

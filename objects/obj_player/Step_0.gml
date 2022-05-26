@@ -1,3 +1,4 @@
+scr_playerspr()
 switch state
 {
 	case states.normal:
@@ -23,8 +24,10 @@ switch state
 		break;
 }
 
-
-mask_index = crouched ? spr_player_crouchmask : spr_player_mask
+if character != "F"
+	mask_index = crouched ? spr_player_crouchmask : spr_player_mask
+else
+	mask_index = spr_fox_mask
 walkspeed = 0.3 / (crouched + 1)
 if dogravity {
 	onground = place_meeting(x, y + 1, obj_solid)
@@ -80,7 +83,7 @@ if canmove { // disable moving, jumping, grabbing, and entering doors
 
 }
 
-if canmove and keyboard_check_pressed(ord("C")) and state != states.taunt {
+if canmove and keyboard_check_pressed(ord("C")) and state != states.taunt and character != "F" {
 	canmove = false
 	dogravity = false
 	prevstate = state

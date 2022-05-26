@@ -1,9 +1,10 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
+/*
 function scr_plrscripts(){
 	// do nothing hAHAHAH
 }
-
+*/
 #region normal
 function scr_plr_normal() {
 	if !canmove exit;
@@ -14,7 +15,7 @@ function scr_plr_normal() {
 		if keyboard_check(vk_left) or keyboard_check(vk_right) {
 			if !keyboard_check(vk_right) - keyboard_check(vk_left) == 0 {
 				hsp = clamp(hsp + walkspeed * ( keyboard_check(vk_right) - keyboard_check(vk_left) ), -maxspeed, maxspeed)
-				changeSprite(spr_player_move)
+				changeSprite(movespr)
 				image_xscale = keyboard_check(vk_right) ? 1 : -1
 			}
 		} else {
@@ -22,10 +23,10 @@ function scr_plr_normal() {
 			switch idlemode
 			{
 				case 0: default:
-					changeSprite(spr_player_idle)
+					changeSprite(idlespr)
 					break;
 				case 1:
-					changeSprite(spr_player_hurtidle)
+					changeSprite(hurtidlespr)
 					break;
 				case 2:
 					changeSprite(spr_player_gunidle)
@@ -37,7 +38,7 @@ function scr_plr_normal() {
 		}
 	}
 	if !onground {
-		changeSprite(spr_player_fall)
+		changeSprite(fallspr)
 	}
 	if !keyboard_check(vk_down) and instance_position(x, y - 36, obj_solid) exit; // don't crouch
 	crouched = keyboard_check(vk_down)
@@ -46,7 +47,7 @@ function scr_plr_normal() {
 
 #region grab
 function scr_plr_grab() {
-	changeSprite(spr_player_dash)
+	changeSprite(attackspr)
 	hsp = 8 * image_xscale
 	var thing = instance_place(x + hsp, y, obj_solid)
 	if thing != noone {
@@ -95,7 +96,7 @@ function scr_plr_run() {
 	statevar 2 is for the step sounds
 	statevar 3 is for the max speed sound and effects
 	*/
-	changeSprite(spr_player_run)
+	changeSprite(runspr)
 	statevars[0] += 0.25 * image_xscale
 	statevars[0] = clamp(statevars[0], -12, 12)
 	statevars[2] -= 1 * (abs(hsp) / 1.75)
@@ -188,7 +189,7 @@ function scr_plr_run() {
 
 #region runturn
 function scr_plr_runturn() {
-	changeSprite(spr_player_runturn)
+	changeSprite(runturnspr)
 	if statevars[1] > 0 statevars[1] -= 1
 	if statevars[1] <= 0 {
 		image_xscale = -image_xscale
@@ -202,7 +203,7 @@ function scr_plr_runturn() {
 
 #region hurt
 function scr_plr_hurt() {
-	sprite_index = spr_player_hurt
+	sprite_index = hurtspr
 	if onground vsp = -3
 	statetimer -= 1
 	if statetimer <= 0 {
@@ -214,7 +215,7 @@ function scr_plr_hurt() {
 
 #region stun
 function scr_plr_stun() {
-	sprite_index = spr_player_hurt
+	sprite_index = hurtspr
 	statetimer -= 1
 	if statetimer <= 0 {
 		changeState(states.normal)
